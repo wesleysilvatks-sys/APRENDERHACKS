@@ -2,20 +2,44 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Termo de Números - Hack 01</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hack 01 - Number Quest</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <div class="game-container">
-        <h1>Hack 01: Number Quest</h1>
+        <header>
+            <h1>HACK_01: NUMBER_QUEST</h1>
+            <p>Descubra o código de 4 dígitos (sem repetições)</p>
+        </header>
+
+        <!-- Área onde as tentativas aparecerão -->
         <div id="board"></div>
+
         <div class="controls">
-            <input type="text" id="guessInput" maxlength="4" onkeydown="if(event.key === 'Enter') makeGuess()">
-            <input type="text" id="guessInput" maxlength="4" placeholder="4 dígitos...">
-            <button onclick="makeGuess()">Tentar</button>
+            <input 
+                type="text" 
+                id="guessInput" 
+                maxlength="4" 
+                placeholder="0000" 
+                autocomplete="off"
+                onkeydown="if(event.key === 'Enter') makeGuess()"
+            >
+            <button onclick="makeGuess()">EXECUTAR</button>
         </div>
-        <p id="message"></p>
+
+        <div class="status-area">
+            <p id="message"></p>
+        </div>
+
+        <div class="legend">
+            <span><span class="dot green"></span> Correto</span>
+            <span><span class="dot orange"></span> Posição Errada</span>
+            <span><span class="dot red"></span> Incorreto</span>
+        </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
