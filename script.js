@@ -1,9 +1,16 @@
-const secretCode = Math.floor(1000 + Math.random() * 9000).toString();
+const input = document.getElementById('guessInput');
+const board = document.getElementById('board');
+const message = document.getElementById('message');
+
+let secretCode = generateCode();
 let attempts = 0;
 const maxAttempts = 4;
 
+function generateCode() {
+    return Math.floor(1000 + Math.random() * 9000).toString();
+}
+
 function makeGuess() {
-    const input = document.getElementById('guessInput');
     const guess = input.value;
     
     if (guess.length !== 4 || attempts >= maxAttempts) return;
@@ -26,13 +33,33 @@ function makeGuess() {
         row.appendChild(span);
     }
 
-    document.getElementById('board').appendChild(row);
+    board.appendChild(row);
     attempts++;
     input.value = '';
 
+    // Lógica de Finalização
     if (guess === secretCode) {
-        document.getElementById('message').innerText = "Acesso Concedido!";
+        endGame("SISTEMA ACESSADO! Reiniciando...");
     } else if (attempts === maxAttempts) {
-        document.getElementById('message').innerText = `Sistema Bloqueado! Código: ${secretCode}`;
+        endGame(`SISTEMA BLOQUEADO! O código era ${secretCode}. Reiniciando...`);
     }
+}
+
+function endGame(msg) {
+    message.innerText = msg;
+    input.disabled = true; // Desativa o input para evitar bugs
+
+    // Aguarda 3 segundos e reinicia automaticamente
+    setTimeout(() => {
+        resetGame();
+    }, 3000);
+}
+
+function resetGame() {
+    attempts = 0;
+    secretCode = generateCode();
+    board.innerHTML = '';
+    message.innerText = '';
+    input.disabled = false;
+    input.focus();
 }
