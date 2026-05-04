@@ -10,6 +10,7 @@
         <h1>Hack 01: Number Quest</h1>
         <div id="board"></div>
         <div class="controls">
+            <input type="text" id="guessInput" maxlength="4" onkeydown="if(event.key === 'Enter') makeGuess()">
             <input type="text" id="guessInput" maxlength="4" placeholder="4 dígitos...">
             <button onclick="makeGuess()">Tentar</button>
         </div>
