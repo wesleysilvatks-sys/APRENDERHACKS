@@ -2,18 +2,28 @@ const input = document.getElementById('guessInput');
 const board = document.getElementById('board');
 const message = document.getElementById('message');
 
-let secretCode = generateCode();
 let attempts = 0;
 const maxAttempts = 4;
+let secretCode = generateCode();
 
 function generateCode() {
-    return Math.floor(1000 + Math.random() * 9000).toString();
+    let digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    digits.sort(() => Math.random() - 0.5);
+    return digits.slice(0, 4).join('');
 }
 
 function makeGuess() {
     const guess = input.value;
     
     if (guess.length !== 4 || attempts >= maxAttempts) return;
+
+    // Impede números repetidos no palpite
+    if (new Set(guess).size !== 4) {
+        message.innerText = "Não repita números!";
+        return;
+    }
+
+    message.innerText = ""; // Limpa avisos de erro
 
     const row = document.createElement('div');
     row.className = 'row';
@@ -37,19 +47,16 @@ function makeGuess() {
     attempts++;
     input.value = '';
 
-    // Lógica de Finalização
     if (guess === secretCode) {
-        endGame("SISTEMA ACESSADO! Reiniciando...");
+        endGame("SISTEMA ACESSADO!");
     } else if (attempts === maxAttempts) {
-        endGame(`SISTEMA BLOQUEADO! O código era ${secretCode}. Reiniciando...`);
+        endGame(`FALHA! O código era ${secretCode}`);
     }
 }
 
 function endGame(msg) {
     message.innerText = msg;
-    input.disabled = true; // Desativa o input para evitar bugs
-
-    // Aguarda 3 segundos e reinicia automaticamente
+    input.disabled = true;
     setTimeout(() => {
         resetGame();
     }, 3000);
